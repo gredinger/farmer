@@ -1,6 +1,7 @@
 package farmer_test
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -23,13 +24,14 @@ func TestTileGenerationDirection(t *testing.T) {
 }
 
 func TestTileResourceGenerator(t *testing.T) {
-	tile := farmer.Tile{X: 1, Y: 1, Z: 0, Solar: 1200, Wind: 90, Temp: 130}
-	tile.GenerateNextTile(3)
+	tile := farmer.Tile{X: 1, Y: 1, Z: 0, Solar: 1200, Wind: 9, Temp: 130, Moisture: 10}
+	genTile := tile.GenerateNextTile(3) //generate chunk to Northeast
 	err := true
-	for _, y := range tile.Resources {
-		if strings.Contains(y.Name, "sand") {
+	for _, y := range genTile.Resources {
+		if strings.Contains(y.Name, "Sand") {
 			err = false
 		}
+		fmt.Printf("Checking %v\n", y.Name)
 	}
 	if err {
 		t.Error("No sand in desert.")
