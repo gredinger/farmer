@@ -23,17 +23,31 @@ func TestTileGenerationDirection(t *testing.T) {
 
 }
 
+type TileTests struct {
+	Tile             farmer.Tile
+	ExpectedResource string
+}
+
 func TestTileResourceGenerator(t *testing.T) {
-	tile := farmer.Tile{X: 1, Y: 1, Z: 0, Solar: 1200, Wind: 9, Temp: 130, Moisture: 10}
-	genTile := tile.GenerateNextTile(3) //generate chunk to Northeast
-	err := true
-	for _, y := range genTile.Resources {
-		if strings.Contains(y.Name, "Sand") {
-			err = false
+	tt := make([]TileTests, 0)
+	tt = append(tt, TileTests{
+		farmer.Tile{X: 1, Y: 1, Z: 0, Solar: 1200, Wind: 9, Temp: 130, Moisture: 10},
+		"Sand",
+	})
+	tt = append(tt, TileTests{
+		farmer.Tile{Y: 1, X: 1, Z: 10, Solar: 450, Wind: 1, Temp: 25, Moisture: 900},
+		"Ice",
+	})
+	for _, x := range tt {
+		genTile := x.Tile.GenerateNextTile(3) //generate chunk to Northeast
+		err := true
+		for _, y := range genTile.Resources {
+			if strings.Contains(y.Name, x.ExpectedResource) {
+				err = false
+			}
 		}
-		fmt.Printf("Checking %v\n", y.Name)
-	}
-	if err {
-		t.Error("No sand in desert.")
+		if err {
+			t.Error(fmt.Sprintf("Generated tile lacks %s", x.ExpectedResource))
+		}
 	}
 }

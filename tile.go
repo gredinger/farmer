@@ -43,6 +43,13 @@ func (t *Tile) generateResources() {
 		})
 	}
 
+	if t.Moisture > 750 && t.Temp <= 32 {
+		t.Resources = append(t.Resources, Resource{
+			Name:     "Ice",
+			Quantity: float64(rand.Intn(int(t.Moisture) * 30)),
+		})
+	}
+
 	// Silt for 500-1500 solar + 1000 moisture
 
 	// Ice from solar under 500 at least 750 moisture
