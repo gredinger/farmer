@@ -38,6 +38,7 @@ func TestTileResourceGenerator(t *testing.T) {
 		farmer.Tile{Y: 1, X: 1, Z: 10, Solar: 450, Wind: 1, Temp: 25, Moisture: 900},
 		"Ice",
 	})
+
 	for _, x := range tt {
 		genTile := x.Tile.GenerateNextTile(3) //generate chunk to Northeast
 		err := true
