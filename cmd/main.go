@@ -1,12 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 
 	"github.com/gredinger/farmer"
 )
 
 func main() {
-	t := farmer.Tile{}
-	fmt.Println(t)
+	var fn string
+	flag.StringVar(&fn, "c", "server.ini", "Configuration file")
+	flag.Parse()
+	webApp := farmer.WebApp{}
+	webApp.LoadSettings(fn)
+	webApp.Run()
 }
